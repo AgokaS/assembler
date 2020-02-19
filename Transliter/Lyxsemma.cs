@@ -16,8 +16,8 @@ namespace Transliter
         }
         private static string[] sTypeText = new string[3] { " индефикатор", " разделитель", " литерал" };
 
-        private Type type;
-        private string context;
+        public readonly Type type;
+        public readonly string context;
 
         public Lyxsemma(string text, Type type)
         {
