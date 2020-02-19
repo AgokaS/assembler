@@ -21,14 +21,16 @@ namespace Transliter
 
         public static List<Lyxsemma> SelectKeyWord(string input_text)
         {
+            
+            string _word = "";
+            List<Lyxsemma> selectedWords = new List<Lyxsemma>();
+            int i = 0;
+
             try
             {
-                string _word = "";
-                List<Lyxsemma> selectedWords = new List<Lyxsemma>();
-                int i = 0;
                 while (i < input_text.Length)
                 {
-                    if (input_text[i] == ' ')
+                    if (input_text[i] == ' ' || i == input_text.Length-1)
                     {
                         if (_condition == Condition.selecting_none || _condition == Condition.selecting_spliter)
                         {
@@ -37,8 +39,11 @@ namespace Transliter
                         }
                         else
                         {
+                            if (i == input_text.Length - 1)
+                            {
+                                _word += input_text[i].ToString();
+                            }
                             CreateLyxswmma(ref _word, selectedWords);
-                            _condition = Condition.selecting_none;
                         }
                     }
                     else
@@ -49,82 +54,89 @@ namespace Transliter
                             switch (_condition)
                             {
                                 case Condition.selecting_none:
-                                    {
-                                        _condition = IsNumber(asciiDecCode) ? Condition.selecting_literal : IsLetter(asciiDecCode) ? Condition.selecting_identifier : Condition.selecting_spliter;
-                                        _word += input_text[i].ToString();
+                                {
+                                    _condition = IsNumber(asciiDecCode) ?
+                                                Condition.selecting_literal : IsLetter(asciiDecCode) ? 
+                                                Condition.selecting_identifier : Condition.selecting_spliter;
 
-                                        break;
-                                    }
-
-                                case Condition.selecting_identifier:
-                                    {
-                                        if (IsSymbol(asciiDecCode))
-                                        {
-                                            CreateLyxswmma(ref _word, selectedWords);
-                                            _condition = Condition.selecting_none;
-                                            continue;
-                                        }
-                                        else
-                                        {
-                                            _word += input_text[i].ToString();                                         
-                                        }
-                                        break;
-                                    }
-
-                                case Condition.selecting_literal:
-                                    {
                                         if (IsNumber(asciiDecCode))
                                         {
-                                            _word += input_text[i].ToString();
+                                            _condition = Condition.selecting_literal;
+                                        }
+                                        else if (IsLetter(asciiDecCode))
+                                        {
+                                            _condition = Condition.selecting_identifier;
                                         }
                                         else if (IsSymbol(asciiDecCode))
                                         {
-                                            CreateLyxswmma(ref _word, selectedWords);
-                                            _condition = Condition.selecting_none;
-                                            continue;
-                                        }
-                                        break;
-                                    }
-
-                                case Condition.selecting_spliter:
-                                    {
-                                        if (IsSymbol(asciiDecCode))
-                                        {
-
-                                            if (_word.Length < 2)
-                                            {
-                                                if (IsStartDoubleSymbol(asciiDecCode) && _word.Length == 0)
-                                                {
-                                                    _word += input_text[i].ToString();
-                                                }
-                                                else
-                                                {
-                                                    _word += input_text[i].ToString();
-                                                    CreateLyxswmma(ref _word, selectedWords);
-                                                    _condition = Condition.selecting_none;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("Неопознаный знак");
-                                                Exception e = new Exception();
-                                            }
-                                            
+                                            _condition = Condition.selecting_spliter;
                                         }
                                         else
                                         {
-                                            CreateLyxswmma(ref _word, selectedWords);
-                                            _condition = Condition.selecting_none;
-                                            continue;
+                                            MessageBox.Show($"Недопустимый символ {input_text[i]}");
+                                            throw new Exception("Недопустимый знак");
                                         }
-                                        break;
+                                    _word += input_text[i].ToString();
+                                    break;
+                                }
+
+                                case Condition.selecting_identifier:
+                                {
+                                    if (IsSymbol(asciiDecCode))
+                                    {
+                                        CreateLyxswmma(ref _word, selectedWords);
+                                        continue;
                                     }
+                                    else
+                                    {
+                                        _word += input_text[i].ToString();                                         
+                                    }
+                                    break;
+                                }
+
+                                case Condition.selecting_literal:
+                                {
+                                    if (IsNumber(asciiDecCode))
+                                    {
+                                        _word += input_text[i].ToString();
+                                    }
+                                    else if (IsSymbol(asciiDecCode))
+                                    {
+                                        CreateLyxswmma(ref _word, selectedWords);
+                                        continue;
+                                    }
+                                    break;
+                                }
+
+                                case Condition.selecting_spliter:
+                                {
+                                    if (IsSymbol(asciiDecCode))
+                                    {
+                                        if (IsStartDoubleSymbol(asciiDecCode) && _word.Length == 0)
+                                        {
+                                            _word += input_text[i].ToString();
+                                        }
+                                        else
+                                        {
+                                            _word += input_text[i].ToString();
+                                            CreateLyxswmma(ref _word, selectedWords);
+                                        }
+                                            
+                                            
+                                    }
+                                    else
+                                    {
+                                        CreateLyxswmma(ref _word, selectedWords);
+                                        continue;
+                                    }
+                                    break;
+                                }
                             }
                         }
                         else
                         {
                             MessageBox.Show("Размер индефикатора не может быть больше 8 символов");
-                            Exception e = new Exception();
+                            throw new Exception("Превышен размер длинны индефикатора");
                         }
                     }
                     i++; // подготовка к следующей итерации цикла
@@ -132,9 +144,9 @@ namespace Transliter
                 CreateLyxswmma(ref _word, selectedWords);//последняя ликсемма 
                 return selectedWords;
             }
-            catch
+            catch 
             {
-                return null;
+                return new List<Lyxsemma>();
             }
         }
 
@@ -143,75 +155,10 @@ namespace Transliter
             Lyxsemma lyxsemma = new Lyxsemma(_word, (Lyxsemma.Type)_condition);
             selectedWords.Add(lyxsemma);
             _word = "";
+            _condition = Condition.selecting_none;
         }
 
-        public static List<Lyxsemma> SelectKeyWords(string input_text)
-        {
-            string _word = "";
-            List<Lyxsemma> selectedWords = new List<Lyxsemma>();
-            int i = 0;
-            while (i < input_text.Length)
-            {
-                if (input_text[i] == ' ')
-                {
-                    i++; continue;
-                }
-                else
-                {
-                    int dec = Convert.ToInt32(input_text[i]);
-                    if (dec > 47 && dec < 58)
-                    {
-                        _word += input_text[i].ToString();
-                        i++;
-                        while (i < input_text.Length && input_text[i] != ' ')
-                        {
-                            int dec2 = Convert.ToInt32(input_text[i]);
-                            if (dec2 > 47 && dec2 < 58)
-                            {
-                                _word += input_text[i].ToString();
-                                i++;
-                            }
-                            else
-                            {
-                                Exception e = new Exception();
-                                return null;
-                            }
-                        }
-
-                        Lyxsemma lword = new Lyxsemma(_word, Lyxsemma.Type.literal);
-                        selectedWords.Add(lword);
-                        
-                    }
-                    else if (dec > 96 && dec <123) 
-                    {
-                        _word += input_text[i].ToString();
-                        i++;
-                        while (i < input_text.Length && input_text[i] != ' ' )
-                        {
-                            int dec2 = Convert.ToInt32(input_text[i]);
-                            if ((dec2 > 47 && dec2 < 58) || (dec2 > 96 && dec2 < 123))
-                            {
-                                _word += input_text[i].ToString();
-                                i++;
-                            }
-                            else
-                            {
-                                Exception e = new Exception();
-                                return null;
-                            }
-                        }
-
-                        Lyxsemma lword = new Lyxsemma(_word, Lyxsemma.Type.identifier);
-                        selectedWords.Add(lword);
-                    }
-                }
-                i++;
-                _word = ""; 
-            }
-
-            return selectedWords;
-        }
-
+        
         /* Методы проверки типа значения */
 
         private static bool IsNumber(int asciiDecCode)

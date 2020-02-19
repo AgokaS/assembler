@@ -24,7 +24,7 @@ namespace Transliter
         {
             InitializeComponent();
 
-            var text = "for i := 0 to 5 do  if (i<4)";
+            var text = "for i := 0 to 5 do  if (i<4) helloyworld";
             var selectedWord = Selector.SelectKeyWord(text);
             string o_Text = "";
             foreach (var lyxsemm in selectedWord)
