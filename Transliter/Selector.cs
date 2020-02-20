@@ -9,7 +9,7 @@ namespace Transliter
 {
     class Selector
     {
-        private enum Condition
+        private enum Condition 
         {           
             selecting_identifier =Lyxsemma.Type.identifier,
             selecting_spliter = Lyxsemma.Type.spliter,
