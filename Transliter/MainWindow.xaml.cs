@@ -24,15 +24,27 @@ namespace Transliter
         {
             InitializeComponent();
 
-            var text = "for i := 0 to 5 do  if (i<4) helloyworld";
+            var text = "for i := 0 to 5 do  if (i<4) ";
             var selectedWord = Selector.SelectKeyWord(text);
             string o_Text = "";
             foreach (var lyxsemm in selectedWord)
             {
                 o_Text += lyxsemm.Print()+"\n";
             }
-            ctxt_TextCode.Text = o_Text;
+            ctxt_Text.Text = o_Text;
 
+        }
+
+        private void B_inputText_Click(object sender, RoutedEventArgs e)
+        {
+            var text = t_Input.Text;
+            var selectedWord = Selector.SelectKeyWord(text);
+            string o_Text = "";
+            foreach (var lyxsemm in selectedWord)
+            {
+                o_Text += lyxsemm.Print() + "\n";
+            }
+            ctxt_Text.Text = o_Text;
         }
     }
 }

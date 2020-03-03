@@ -32,7 +32,7 @@ namespace Transliter
                 {
                     if (input_text[i] == ' ' || i == input_text.Length-1)
                     {
-                        if (_condition == Condition.selecting_none || _condition == Condition.selecting_spliter)
+                        if (_condition == Condition.selecting_none )
                         {
                             i++;
                             continue;
@@ -141,7 +141,6 @@ namespace Transliter
                     }
                     i++; // подготовка к следующей итерации цикла
                 }
-                CreateLyxswmma(ref _word, selectedWords);//последняя ликсемма 
                 return selectedWords;
             }
             catch 
