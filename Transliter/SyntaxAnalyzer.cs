@@ -7,19 +7,16 @@ using System.Threading.Tasks;
 namespace Transliter
 {
     class SyntaxAnalyzer
-    {   
+    {
         //ключивые слова оператора
-        private static string[][] dictionaryToken = new string[2][]
-        {
-            dictionaryToken[0]= new string[] { "if", "else" , "then", "begin", "end"},
-            dictionaryToken[1]= new string[] {":=", ";", "<" ,">","==",">=","<="},
-        };
+        private static string[] dictionaryToken = new string[] { "if", "else", "then", "begin", "end" };
+
 
         public static bool IsComand(string s_lyxsemm)
         {
-            for (int i = 0; i < dictionaryToken[0].Length; i++)
+            for (int i = 0; i < dictionaryToken.Length; i++)
             {
-                if (s_lyxsemm == dictionaryToken[0][i])
+                if (s_lyxsemm == dictionaryToken[i])
                     return true;
             }
             return false;

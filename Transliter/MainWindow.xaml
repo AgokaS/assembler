@@ -8,12 +8,12 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="288*"/>
-            <ColumnDefinition Width="505*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="t_Input" HorizontalAlignment="Left" Height="118" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="268"/>
-        <TextBlock x:Name="ctxt_Text" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="399" Width="484" Grid.Column="1"><Run Text="Привет  тут"/><LineBreak/><Run/></TextBlock>
-        <Button x:Name="b_inputText" Content="Button" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="75" Click="B_inputText_Click"/>
+        <TextBox x:Name="t_Input" HorizontalAlignment="Left" Height="118" Margin="10,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="268"/>
+        <TextBlock x:Name="ctxt_Text" HorizontalAlignment="Left" Margin="10,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="380" Width="484" Grid.Column="1"/>
+        <Button x:Name="b_inputText" Content="Разобрать" HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top" Width="268" Click="B_inputText_Click" Height="28"/>
 
     </Grid>
 </Window>

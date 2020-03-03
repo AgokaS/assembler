@@ -29,7 +29,7 @@ namespace Transliter
 
         private void StartDebag()
         {
-            var text = "for i := 0 to 5 do  if (i<4) ";
+            var text = "for i : = 0 to 5 do  if (i<4) ";
             var selectedWord = Selector.SelectKeyWord(text);
             SyntaxAnalyzer.Analyz(selectedWord);
             string o_Text = "";
@@ -44,6 +44,7 @@ namespace Transliter
         {
             var text = t_Input.Text;
             var selectedWord = Selector.SelectKeyWord(text);
+            SyntaxAnalyzer.Analyz(selectedWord);
             string o_Text = "";
             foreach (var lyxsemm in selectedWord)
             {

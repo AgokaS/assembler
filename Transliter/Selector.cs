@@ -31,17 +31,13 @@ namespace Transliter
                 {
                     if (input_text[i] == ' ' || i == input_text.Length-1)
                     {
-                        if (_condition == Condition.selecting_none )
+                        if (_condition == Condition.selecting_none || _condition == Condition.selecting_spliter)
                         {
                             i++;
                             continue;
                         }
                         else
                         {
-                            if (i == input_text.Length - 1)
-                            {
-                                _word += input_text[i].ToString();
-                            }
                             CreateLyxswmma(ref _word, selectedWords);
                         }
                     }
@@ -135,6 +131,9 @@ namespace Transliter
                     }
                     i++; // подготовка к следующей итерации цикла
                 }
+                if (_word.Length>0)
+                    CreateLyxswmma(ref _word, selectedWords);
+
                 return selectedWords;
             }
             catch 
