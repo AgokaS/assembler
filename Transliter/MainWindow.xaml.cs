@@ -24,15 +24,20 @@ namespace Transliter
         {
             InitializeComponent();
 
+            StartDebag();
+        }
+
+        private void StartDebag()
+        {
             var text = "for i := 0 to 5 do  if (i<4) ";
             var selectedWord = Selector.SelectKeyWord(text);
+            SyntaxAnalyzer.Analyz(selectedWord);
             string o_Text = "";
             foreach (var lyxsemm in selectedWord)
             {
-                o_Text += lyxsemm.Print()+"\n";
+                o_Text += lyxsemm.Print() + "\n";
             }
             ctxt_Text.Text = o_Text;
-
         }
 
         private void B_inputText_Click(object sender, RoutedEventArgs e)

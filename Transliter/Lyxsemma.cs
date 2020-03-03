@@ -14,10 +14,26 @@ namespace Transliter
             spliter,
             literal,
         }
-        private static string[] sTypeText = new string[3] { " индефикатор", " разделитель", " литерал" };
+
+        public enum Token
+        {
+            _operator,
+            _name,
+            _none
+        }
+        
+        private static string[] sTypeText = new string[3] { "\t индефикатор", "\t разделитель", "\t литерал" };
+        private static string[] sTokenText = new string[] { "\t оператор", "\t имя_переменной", "" };
 
         public readonly Type type;
+        private Token token = Token._none;
         public readonly string context;
+
+        public int mToken
+        {
+            get { return (int)token;}
+            set { token = (Token)value; }
+        }
 
         public Lyxsemma(string text, Type type)
         {
@@ -27,7 +43,7 @@ namespace Transliter
 
         public string Print()
         {
-            return context + sTypeText[(int)type];
+            return context + sTypeText[(int)type ] + sTokenText[(int)token];
         }
 
     }

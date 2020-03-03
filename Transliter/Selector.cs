@@ -20,8 +20,7 @@ namespace Transliter
         private static Condition _condition = Condition.selecting_none;
 
         public static List<Lyxsemma> SelectKeyWord(string input_text)
-        {
-            
+        {           
             string _word = "";
             List<Lyxsemma> selectedWords = new List<Lyxsemma>();
             int i = 0;
@@ -55,9 +54,6 @@ namespace Transliter
                             {
                                 case Condition.selecting_none:
                                 {
-                                    _condition = IsNumber(asciiDecCode) ?
-                                                Condition.selecting_literal : IsLetter(asciiDecCode) ? 
-                                                Condition.selecting_identifier : Condition.selecting_spliter;
 
                                         if (IsNumber(asciiDecCode))
                                         {
@@ -120,9 +116,7 @@ namespace Transliter
                                         {
                                             _word += input_text[i].ToString();
                                             CreateLyxswmma(ref _word, selectedWords);
-                                        }
-                                            
-                                            
+                                        }                                           
                                     }
                                     else
                                     {
@@ -157,7 +151,7 @@ namespace Transliter
             _condition = Condition.selecting_none;
         }
 
-        
+
         /* Методы проверки типа значения */
 
         private static bool IsNumber(int asciiDecCode)
@@ -170,7 +164,7 @@ namespace Transliter
 
         private static bool IsLetter(int asciiDecCode)
         {
-            if (asciiDecCode > 96 && asciiDecCode < 123) 
+            if (asciiDecCode > 96 && asciiDecCode < 123)
                 return true;
             else
                 return false;

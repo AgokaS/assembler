@@ -7,41 +7,35 @@ using System.Threading.Tasks;
 namespace Transliter
 {
     class SyntaxAnalyzer
-    {
-        private enum Type_lyxsemm
+    {   
+        //ключивые слова оператора
+        private static string[][] dictionaryToken = new string[2][]
         {
-            _operator,
-            _keyWordLanguage,
-            _name,          
-        }
-
-        private static Type_lyxsemm type_lyxsemm;
-        
-        private static string[][] dictionary_lyxsemms = new string[2][]
-        {
-            dictionary_lyxsemms[0]= new string[7] { "if", "else" , "for", "to", "do", "begin", "end"},
-            dictionary_lyxsemms[1]= new string[2],
+            dictionaryToken[0]= new string[] { "if", "else" , "then", "begin", "end"},
+            dictionaryToken[1]= new string[] {":=", ";", "<" ,">","==",">=","<="},
         };
 
-        private static bool IsComand(string s_lyxsemm)
+        public static bool IsComand(string s_lyxsemm)
         {
-            for (int i = 0; i<dictionary_lyxsemms[0].Length; i++)
+            for (int i = 0; i < dictionaryToken[0].Length; i++)
             {
-                if (s_lyxsemm == dictionary_lyxsemms[0][i])
+                if (s_lyxsemm == dictionaryToken[0][i])
                     return true;
             }
             return false;
         }
 
-        public static void Analyz(List<Lyxsemma> lyxsemmas)
+        public static List<Lyxsemma> Analyz ( List<Lyxsemma> lyxsemmas)
         {
             foreach (Lyxsemma lyxsemm in lyxsemmas)
             {
                 if (lyxsemm.type == Lyxsemma.Type.identifier)
                     if (IsComand(lyxsemm.context))
-                        type_lyxsemm=Type_lyxsemm._operator;
-
+                        lyxsemm.mToken = (int)Lyxsemma.Token._operator;
+                    else
+                        lyxsemm.mToken = (int)Lyxsemma.Token._name;
             }
-        }       
+            return lyxsemmas;
+        }
     }
 }
